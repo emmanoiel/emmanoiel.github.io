@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Vamos Casar?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffe6eb;
+      font-family: 'Indie Flower', cursive;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #ff6b81;
+      margin-top: 20px;
+    }
+
+    img.gif {
+      width: 200px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .yes {
+      background-color: #ff6b81;
+      color: white;
+    }
+
+    .no {
+      background-color: #f1f1f1;
+      color: #333;
+      position: absolute;
+    }
+
+    .heart {
+      position: fixed;
+      user-select: none;
+      pointer-events: none;
+      color: #ff6b81;
+      animation: fall 10s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(120vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #ff6b81;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GIF Inicial -->
+  <img id="gif1" class="gif" src="56a928eba54db68b72cf44a565477f1c.gif" alt="Gatinhos abraçando">
+
+  <!-- GIF após clicar em 'Sim' (inicialmente escondido) -->
+  <img id="gif2" class="gif" src="gifgatinho.gif" alt="Gatinhos se beijando" style="display: none;">
+
+  <h1>Vamos casar um dia?</h1>
+
+  <div class="buttons">
+    <button class="btn yes" id="yesBtn">Sim 💍</button>
+    <button class="btn no" id="noBtn">Não 😢</button>
+  </div>
+
+  <div class="message" id="finalMessage">Te amo! 💖💖💖</div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const message = document.getElementById('finalMessage');
+    const gif1 = document.getElementById('gif1');
+    const gif2 = document.getElementById('gif2');
+
+    function moveNoButton() {
+      const maxX = window.innerWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - noBtn.offsetHeight;
+      const randX = Math.random() * maxX;
+      const randY = Math.random() * maxY;
+      noBtn.style.left = `${randX}px`;
+      noBtn.style.top = `${randY}px`;
+    }
+
+    noBtn.addEventListener('mouseover', moveNoButton);
+
+    yesBtn.addEventListener('click', () => {
+      message.style.display = 'block';
+
+      // Troca os GIFs
+      gif1.style.display = 'none';
+      gif2.style.display = 'block';
+
+      let duration = 10000;
+      let interval = 100;
+      let startTime = Date.now();
+
+      const rain = setInterval(() => {
+        if (Date.now() - startTime > duration) {
+          clearInterval(rain);
+          return;
+        }
+
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerText = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = '-50px';
+        heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 10000);
+      }, interval);
+    });
+
+    // Posição inicial do botão Não
+    moveNoButton();
+  </script>
+
+</body>
+</html>
